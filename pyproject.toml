@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "curl2s3"
+version = "0.1.0"
+description = ""
+authors = ["MichaelProjects <michael.lichtenecker@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.103.2"
+uvicorn = "^0.23.2"
+aioboto3 = "^11.3.0"
+python-multipart = "^0.0.6"
+cryptography = "^41.0.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

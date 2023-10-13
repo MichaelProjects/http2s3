@@ -1,0 +1,4 @@
+conf.toml
+.DS_Store
+__pycache__/
+test_file*
