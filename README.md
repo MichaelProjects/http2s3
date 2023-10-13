@@ -3,7 +3,7 @@ Simple python application to make it easy to use s3 with client-side encryption 
 
 ## Usage
 > [!WARNING]  
->This service was developed to work with the s3 production offered by linode, no guarantee that it will work worth with other >providers eg. aws, gcp or digital oceans equivalent products, if you'd like support youre welcome to create a update and >create a pull request.
+>This service was developed to work with the s3 production offered by linode, no guarantee that it will work worth with other providers eg. aws, gcp or digital oceans equivalent products, if you'd like support youre welcome to create a update and create a pull request.
 
 1. Upload your file to specific location
 
@@ -16,6 +16,12 @@ curl -X POST -F "file=@test_file.zip" localhost:8777/api/v1/{your_directory_in_b
 ```bash
 poetry run python3 decrypt_file.py -f /Users/michael/Downloads/backup01.zip
 ```
+4. If you run the docker version you need to download the scirpt and install some requirements that are needed:
+```bash
+curl -o decrypt_file.py https://raw.githubusercontent.com/MichaelProjects/http2s3/master/decrypt_file.py
+pip install cryptography==41.0.4
+export encryption_key=your_encryption_key
+``` 
 
 ## Install
 > **Note**
@@ -26,15 +32,15 @@ There are two ways to install, probably the easyist way to run the service is vi
 ### Docker
 1. Pull the image:
 ```bash
-docker pull
+docker pull michaelprojects/http2s3:1.0.0
 ```
 2. Start the container with your secrets:
 ```bash
-docker run -v /absolut/path/to/conf.toml:/conf.toml  http2s3:1.0.0
+docker run -v /absolut/path/to/conf.toml:/conf.toml michaelprojects/http2s3:1.0.0
 ```
 2.1 Run the configure the application via docker environment variables:
 ```bash
-docker run -e debug=false -e encryption_on=true -e port=8000 -e host=0.0.0.0 -e api_key=.. -e secret_key=.. -e cluster_url=.. -e encryption_key=.. -p 0.0.0.0:8000:8000 http2s3:1.0.0
+docker run -e debug=false -e encryption_on=true -e port=8000 -e host=0.0.0.0 -e api_key=.. -e secret_key=.. -e cluster_url=.. -e encryption_key=.. -p 0.0.0.0:8000:8000 michaelprojects/http2s3:1.0.0
 ```
 
 ### Locally

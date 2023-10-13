@@ -10,10 +10,10 @@ COPY main.py /main.py
 COPY pyproject.toml /
 COPY poetry.lock /
 
-RUN apk add --no-cache gcc musl-dev python3-dev libffi-dev openssh-client curl && \
+RUN apk add --no-cache gcc musl-dev python3-dev libffi-dev curl && \
     curl -sSL https://install.python-poetry.org | POETRY_HOME=/etc/poetry python3 - && \
-    apk del --no-cache --purge gcc musl-dev 
-    # python3-dev libffi-dev
+    apk del --no-cache --purge gcc musl-dev libffi-dev
+    # python3-dev
 
 ENV PATH="/etc/poetry/bin:${PATH}"
 
