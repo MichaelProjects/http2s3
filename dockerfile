@@ -28,7 +28,7 @@ RUN poetry install --no-dev --no-root
 FROM alpine:3.20.3
 RUN adduser --disabled-password --gecos "" productionUser
 COPY /app /app
-
+RUN touch conf.toml
 COPY main.py /main.py
 
 RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python

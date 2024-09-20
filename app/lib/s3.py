@@ -5,6 +5,7 @@ import aioboto3
 import logging
 from fastapi import HTTPException
 
+
 async def upload_object(file: BinaryIO, filename: str, bucket: str) -> Union[str, bool]:
     session = aioboto3.Session()
     async with session.resource("s3", endpoint_url=os.environ["cluster_url"], aws_access_key_id=os.environ["api_key"], aws_secret_access_key=os.environ["secret_key"]) as s3:

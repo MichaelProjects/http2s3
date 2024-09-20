@@ -21,7 +21,6 @@ v1_router = APIRouter(
 async def get_download_resource(file_path: str, filename: str):
     try:
         logging.debug(f"Starting download for {file_path}/{filename}")
-        # s3_stream = await get_s3_object_stream(file_path=file_path, filename=filename)
         decryption_key = os.environ.get("encryption_key")
         if not decryption_key:
             logging.error("Decryption key is missing")
