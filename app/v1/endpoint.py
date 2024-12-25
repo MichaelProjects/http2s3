@@ -61,3 +61,14 @@ async def upload_resource(file_path: str, filename: str, response: Response, fil
         logging.error(f"Failed to upload file: {e}")
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"detail": "Failed to upload file"}
+
+
+@v1_router.delete("/{file_path}/{filename}")
+async def delete_resource(file_path: str, filename: str, response: Response):
+    try:
+        res = await delete_resource(filename)
+        return { "filename": filename, "deleted": True }
+    except Exception as e:
+        logging.error(f"Failed to delete file: {e}")
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {"detail": "Failed to delete file"}
