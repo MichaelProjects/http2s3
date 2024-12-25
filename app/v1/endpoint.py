@@ -5,7 +5,7 @@ from fastapi import Response, status, APIRouter, status, Depends
 from fastapi import FastAPI, UploadFile, HTTPException, Header
 from fastapi.responses import StreamingResponse
 from app.lib.other import encrypt_message, decrypt_message
-from app.lib.s3 import upload_object, get_s3_object_stream, stream_file_to_s3, retrieve_s3_object_stream
+from app.lib.s3 import stream_file_to_s3, retrieve_s3_object_stream, delete_object
 from cryptography.fernet import Fernet, InvalidToken
 import base64
 import aioboto3
@@ -64,9 +64,9 @@ async def upload_resource(file_path: str, filename: str, response: Response, fil
 
 
 @v1_router.delete("/{file_path}/{filename}")
-async def delete_resource(file_path: str, filename: str, response: Response):
+async def delete_resource_endpoint(file_path: str, filename: str, response: Response):
     try:
-        res = await delete_resource(filename)
+        res = await delete_object(file_path, filename)
         return { "filename": filename, "deleted": True }
     except Exception as e:
         logging.error(f"Failed to delete file: {e}")

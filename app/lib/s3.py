@@ -57,7 +57,7 @@ async def stream_file_to_s3(file: UploadFile, bucket: str, filename: str):
             await s3.complete_multipart_upload(Bucket=bucket, Key=filename, UploadId=upload_id,
                                                MultipartUpload={"Parts": parts})
 
-            return os.environ["cluster_url"] + "/" + filename
+            return f"{os.environ["cluster_url"]}/{bucket}/{filename}"
         except Exception as e:
             logging.error(f"Failed to upload file: {e}")
             await s3.abort_multipart_upload(Bucket=bucket, Key=filename, UploadId=upload_id)
