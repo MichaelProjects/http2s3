@@ -57,7 +57,7 @@ async def stream_file_to_s3(file: UploadFile, bucket: str, filename: str):
             await s3.complete_multipart_upload(Bucket=bucket, Key=filename, UploadId=upload_id,
                                                MultipartUpload={"Parts": parts})
 
-            return os.environ["cluster_url"] + "/" + filename
+            return f"{os.environ["cluster_url"]}/{bucket}/{filename}"
         except Exception as e:
             logging.error(f"Failed to upload file: {e}")
             await s3.abort_multipart_upload(Bucket=bucket, Key=filename, UploadId=upload_id)
@@ -130,6 +130,17 @@ async def retrieve_s3_object_stream(file_path: str, filename: str):
             except Exception as e:
                 logging.error(f"Error in decrypt_and_stream: {e}")
                 raise
+        except Exception as e:
+            logging.error(f"Failed to get object from S3: {e}")
+            raise Exception("File not found")
+
+async def delete_object(file_path: str, filename: str):
+    session = aioboto3.Session()
+    async with session.resource("s3", endpoint_url=os.environ["cluster_url"], aws_access_key_id=os.environ["api_key"], aws_secret_access_key=os.environ["secret_key"]) as s3:
+        try:
+            y = await s3.Object(file_path, filename)
+            res = await y.delete()
+            logging.debug(res)
         except Exception as e:
             logging.error(f"Failed to get object from S3: {e}")
             raise Exception("File not found")
